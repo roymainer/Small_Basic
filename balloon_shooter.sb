@@ -1,0 +1,123 @@
+'Constants
+screenWidth = 640
+screenHeight = 480
+
+cannonWidth = 80
+cannonHeight = 20
+cannonBaseWidth = 40
+cannonBaseHeight = 40
+
+balloonWidth = 40
+balloonHeight = 50
+balloonX = 60
+balloonSpeedY = 2
+
+bulletWidth = 16
+bulletHeight = 4
+bulletSpeedX = balloonSpeedY * -1.5
+
+delay = 6
+
+'#################################################### 
+'Init:  
+Init()
+
+' HandleEvents (not in loop)
+GraphicsWindow.MouseMove = OnMouseMove
+GraphicsWindow.MouseDown = OnMouseDown
+
+'Game Loop
+RunLoop:
+  Update()
+  GraphicsWindow.Title = "Ballon Shooter. Misses: " + misses
+  
+  If hit = "False" Then
+    Goto RunLoop
+  EndIf
+  
+  GraphicsWindow.DrawText(screenWidth/2, screenHeight/2, "Game Finised! " + misses + " misses!")
+  
+'####################################################
+
+Sub Init
+  GraphicsWindow.BackgroundColor = "White"
+  
+  cannon = Shapes.AddRectangle(cannonWidth, cannonHeight)
+  cannonBase = Shapes.AddRectangle(cannonBaseWidth, cannonBaseHeight)
+  OnMouseMove() ' draw the cannon on the screen in correct position
+  
+  balloon = Shapes.AddEllipse(balloonWidth, balloonHeight)
+  Shapes.Move(balloon, balloonX, Math.GetRandomNumber(screenHeight) - balloonHeight) 'draw balloon
+  
+  bulletCount = 0
+  hit = "False"   
+  misses = 0
+EndSub
+
+Sub OnMouseMove
+  cannonY = GraphicsWindow.MouseY
+  Shapes.Move(cannon, screenWidth - cannonWidth - cannonBaseWidth, cannonY - cannonHeight/2)
+  Shapes.Move(cannonBase, screenWidth - cannonBaseWidth, cannonY - cannonBaseHeight/2)
+EndSub  
+
+Sub OnMouseDown
+  If bulletCount = 0 Then
+    bullet = Shapes.AddEllipse(bulletWidth, bulletHeight)
+    bulletCount = 1
+    Shapes.Move(bullet, Shapes.GetLeft(cannon) - balloonWidth, Shapes.GetTop(cannon) + cannonHeight/2)
+  EndIf
+EndSub
+
+
+Sub Update
+  MoveBullet()
+  MoveBalloon()
+  CheckCollission()
+  Program.Delay(delay)
+EndSub
+
+Sub MoveBullet
+  'Move bullet
+  Shapes.Move(bullet, Shapes.GetLeft(bullet) + bulletSpeedX, Shapes.GetTop(bullet))
+  ' Remove the bullet if out of screen
+  If (Shapes.GetLeft(bullet) < 0) Then
+    Shapes.Remove(bullet)
+    bulletCount = 0
+    misses = misses + 1
+  endif
+EndSub
+
+Sub MoveBalloon
+  balloonY = shapes.GetTop(balloon)
+  
+  If balloonY <= 0 Then
+    balloonSpeedY = -balloonSpeedY
+    Goto UpdateBalloonPosition
+  EndIf
+  If balloonY >= screenHeight - balloonHeight Then
+    balloonSpeedY = -balloonSpeedY
+    Goto UpdateBalloonPosition
+  EndIf
+  ' Randomize balloon movement
+  If (Math.GetRandomNumber(1000) = 1000) Then
+    balloonSpeedY = - balloonSpeedY
+  EndIf
+  
+  UpdateBalloonPosition:
+    Shapes.Move(balloon, shapes.GetLeft(balloon), balloonY + balloonSpeedY)
+EndSub
+
+Sub CheckCollission
+  bulletX = Shapes.GetLeft(bullet)
+  bulletY = Shapes.GetTop(bullet)
+  
+  balloonX = Shapes.GetLeft(balloon)
+  balloonY = Shapes.GetTop(balloon)
+  
+  If (bulletX <= balloonX + balloonWidth and bulletY > balloonY And bulletY <= balloonY + balloonHeight) Then
+    hit = "True"
+    Shapes.Remove(bullet)
+    Shapes.Remove(balloon)
+    Sound.PlayChime()
+  EndIf
+EndSub

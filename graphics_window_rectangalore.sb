@@ -1,0 +1,8 @@
+GraphicsWindow.BackgroundColor = "Black"
+GraphicsWindow.PenColor = "LightBlue"
+GraphicsWindow.Width = 200
+GraphicsWindow.Height = 200
+
+For i = 1 To 100 Step 5
+  GraphicsWindow.DrawRectangle(100 - i, 100 - i, i * 2, i * 2)
+  EndFor

@@ -1,0 +1,6 @@
+GraphicsWindow.MouseDown = OnMouseDown 'assigned a subroutine
+
+Sub OnMouseDown
+  GraphicsWindow.ShowMessage("You Clicked.", "Hello")
+EndSub
+  

@@ -1,0 +1,10 @@
+GraphicsWindow.BackgroundColor = "SteelBlue"
+GraphicsWindow.Title = "My Graphics Window"
+GraphicsWindow.Width = 320
+GraphicsWindow.Height = 200
+GraphicsWindow.PenColor = "Green"
+GraphicsWindow.PenWidth = 10
+GraphicsWindow.DrawLine(10, 10, 100, 100)
+GraphicsWindow.PenColor = "Gold"
+GraphicsWindow.DrawLine(10, 100, 100, 10)
+GraphicsWindow.Show()

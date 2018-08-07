@@ -1,0 +1,9 @@
+TextWindow.ForegroundColor ="White"
+TextWindow.Write("Enter Your Name: ")
+name = TextWindow.Read()
+TextWindow.WriteLine("Hello " + name)
+
+TextWindow.Write("Enter Temperature in Celsius: ")
+celsius  = TextWindow.Read()
+fahrenheit = celsius * 9 / 5 + 32
+TextWindow.WriteLine("Temperature in Farenheit: " + fahrenheit)
