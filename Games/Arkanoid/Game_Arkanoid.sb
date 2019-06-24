@@ -1,0 +1,59 @@
+'variables:
+gw = GraphicsWindow.Width
+gh = GraphicsWindow.Height
+delay = 5  ' the game delay between updates, the smaller, the faster the game is
+x = 0  'ball position X
+y = 0  'ball position Y
+deltaX = 1
+deltaY = 1
+paddleW = 120
+paddleH = 12
+ballRad = 16
+score = 0
+brushcolor = GraphicsWindow.BrushColor
+
+'Shape objects
+paddle = Shapes.AddRectangle(paddleW, paddleH)
+ball = Shapes.AddEllipse(ballRad, ballRad)
+
+GraphicsWindow.MouseMove = onMouseMove
+GraphicsWindow.BackgroundColor = "DarkBlue"
+
+'main loop
+RunLoop:
+  x = x + deltaX
+  y = y + deltaY
+  If (x >= gw - ballRad Or x <= 0) Then
+    deltaX = -deltaX
+  EndIf
+  If (y <= 0) Then
+    deltaY = -deltaY
+  EndIf 
+  
+  padX = Shapes.GetLeft(paddle) 'get  left edge of paddle
+  If (y > gh - (paddleH + ballRad) And x >= padx And x <= padX + paddleW) Then
+    deltaY = -deltaY
+    score = score + 1
+  EndIf
+
+  ' clear and redraw score 
+  GraphicsWindow.BrushColor = "DarkBlue"  ' same as background color
+  GraphicsWindow.FillRectangle(0, 0, gw/2, 20)  ' clear the score 
+  GraphicsWindow.BrushColor = brushcolor ' default brush color
+  GraphicsWindow.DrawText(5, 5, "Score:") ' redraw the score
+  GraphicsWindow.DrawText(50, 5, score)
+  
+  Shapes.Move(ball, x, y)  ' move ball 
+  Program.Delay(delay)  ' create 5msec delay
+  
+  If (y < gh) Then
+    Goto RunLoop
+  EndIf
+  
+GraphicsWindow.ShowMessage(score, "Your Score:")  ' game over message
+  
+Sub OnMouseMove
+  paddleX = GraphicsWindow.MouseX
+  Shapes.Move(paddle, paddleX - (paddleW/2), gh - paddleH)
+EndSub
+  

@@ -1,0 +1,28 @@
+Turtle.Speed = 20
+
+Triangle()
+Pentagon()
+Square()
+
+Sub Pentagon
+  Turtle.Angle = 0
+  For i = 0 To 5
+    Turtle.Move(100)
+    Turtle.Angle = Turtle.Angle + 60  
+  EndFor
+EndSub
+
+Sub Triangle
+  Turtle.Angle = 90
+  For i = 0 To 2
+    Turtle.Move(100)
+    Turtle.Angle = Turtle.angle - 120
+  EndFor
+EndSub
+
+Sub Square
+  For i=0 To 3
+    Turtle.Move(100)
+    Turtle.TurnLeft()
+  EndFor
+EndSub

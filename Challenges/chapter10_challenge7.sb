@@ -1,0 +1,36 @@
+Turtle.Speed = 10
+
+Triangle()
+Square()
+Pentagon()
+Polygon()
+
+Sub DrawShape
+  angle = 0
+  For i = 0 To num -1
+    Turtle.Angle = angle
+    Turtle.Move(50)
+    angle = angle + 360/num
+  EndFor
+EndSub
+
+
+Sub Triangle
+  num = 3
+  DrawShape()
+EndSub
+
+Sub Square
+  num = 4
+  DrawShape()
+EndSub
+
+Sub Pentagon
+  num = 5
+  DrawShape()
+EndSub
+  
+Sub Polygon
+  num = 8
+  DrawShape()
+EndSub

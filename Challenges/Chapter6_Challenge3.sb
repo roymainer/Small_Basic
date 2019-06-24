@@ -1,0 +1,18 @@
+'Challenge2
+
+TextWindow.WriteLine("Enter phone number:")
+phone_number = TextWindow.Read()
+
+If phone_number = 000 Then
+  TextWindow.WriteLine("Enter type of emergency: (fire/injury/robbery/else)")
+  type = TextWindow.Read()
+  If type = "fire" Then
+    TextWindow.WriteLine("Firetruck is on the way!")
+  ElseIf type = "injury" then
+    TextWindow.WriteLine("Ambulance is on the way!")
+  ElseIf type = "robbery" then
+    TextWindow.WriteLine("Police car is on the way!")
+  Else
+    TextWindow.WriteLine("Input is invalid")
+  EndIf
+EndIf

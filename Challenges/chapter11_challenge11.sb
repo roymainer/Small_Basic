@@ -1,0 +1,29 @@
+w = GraphicsWindow.Width
+h = GraphicsWindow.height
+radius = 10
+ball = Shapes.AddEllipse(radius*2, radius*2)
+x = 0
+y = 0
+Shapes.Move(ball, x, y)
+
+gameon = 1
+dx = 1
+
+While gameon = 1
+  delay()
+  If x + 2*radius > w or x < 0 Then
+    dx = -dx
+  EndIf
+    
+  x = x + dx
+  
+  Shapes.Move(ball, x , y)
+EndWhile
+GraphicsWindow.DrawText(w/4, h/2, "Finished!")
+
+Sub delay
+  i = 10000
+  While i > 0
+    i = i - 1
+  EndWhile
+EndSub

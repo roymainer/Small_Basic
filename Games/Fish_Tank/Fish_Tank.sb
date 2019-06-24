@@ -1,0 +1,106 @@
+w = GraphicsWindow.Width
+h = GraphicsWindow.height
+delay = 5  ' 5ms delay between updates
+num_fish = 5
+fish_speed = 10
+num_bubbles = 5
+bubble_init_speed = 1
+
+' Init
+GraphicsWindow.BackgroundColor = "Blue"
+GraphicsWindow.BrushColor = "Blue"
+GraphicsWindow.PenColor = "White"
+
+GenerateFish()
+GenerateBubbles()
+
+
+' Main Loop
+RunLoop:
+  Update()
+  Program.Delay(delay)
+  Goto RunLoop
+  
+  
+' Game Update Subroutine
+Sub Update  
+  MoveFish()
+  MoveBubbles()  
+EndSub
+ 
+Sub GenerateFish
+  ' generate fish
+  For i = 0 To num_fish-1
+    fish_array[i] = Shapes.AddImage("C:\Dev\SmallBasic\Games\Fish_Tank\gold_fish.png")  ' load fish image
+    
+    ' randomize swim speed
+    rnd = (Math.GetRandomNumber(fish_speed) + 1 )/ 15
+    fish_move_array[i][0] = -1 * rnd  ' horizontal speed
+    fish_move_array[i][1] = rnd  ' vertical speed
+    
+    ' randomize position
+    rnd = Math.GetRandomNumber(w - 10)
+    fish_position_array[i][0] = rnd
+    fish_position_array[i][1] = Math.GetRandomNumber(h) - rnd
+    Shapes.Move(fish_array[i], fish_position_array[i][0], fish_position_array[i][1])  ' randomly place outside screen on the right
+  EndFor
+EndSub
+
+
+Sub MoveFish
+  ' move fishes
+  For i = 0 To num_fish-1
+    
+    ' update x position
+    x = fish_position_array[i][0] 
+    If x < -200 Then
+      fish_move_array[i][0] = -1 * fish_move_array[i][0]  ' change x direction
+      Shapes.Remove(fish_array[i])  ' remove previous shape
+      fish_array[i] = Shapes.AddImage("C:\Dev\SmallBasic\Games\Fish_Tank\gold_fish_r.png")  ' load right facing fish
+    ElseIf x > w Then
+      fish_move_array[i][0] = -1 * fish_move_array[i][0]  ' change x direction
+      Shapes.Remove(fish_array[i])  ' remove previous shape
+      fish_array[i] = Shapes.AddImage("C:\Dev\SmallBasic\Games\Fish_Tank\gold_fish.png")  ' load left facing fish
+    EndIf  
+    fish_position_array[i][0] = x + fish_move_array[i][0]
+    
+    ' update y position
+    y = fish_position_array[i][1] 
+    If y < 0 Then
+      fish_move_array[i][1] = -1 * fish_move_array[i][1]  ' change y direction      
+    ElseIf y > h Then
+      fish_move_array[i][1] = -1 * fish_move_array[i][1]  ' change y direction
+    EndIf  
+    fish_position_array[i][1] = y + fish_move_array[i][1]
+    
+    Shapes.Move(fish_array[i], fish_position_array[i][0], fish_position_array[i][1])  ' update fish position
+  EndFor
+EndSub
+
+
+Sub GenerateBubbles
+  ' generate bubbles
+  For i = 0 To num_bubbles-1
+    rndx = Math.GetRandomNumber(50)
+    rndy = Math.GetRandomNumber(50)
+    odd = Math.Remainder(rndx, 2)
+    bubbles_array[i] = Shapes.AddEllipse(rndx+5, rndx+5)
+    bubbles_position_array[i][0] = Math.Floor(w / 2) + -1*odd*30 + rndx
+    bubbles_position_array[i][1] = h + 30 - rndy
+    Shapes.Move(bubbles_array[i], bubbles_position_array[i][0], bubbles_position_array[i][1])  ' randomly place outside screen on the bottom right
+  EndFor
+EndSub
+
+
+Sub MoveBubbles
+  ' move bubbles
+  For i = 0 To num_bubbles-1
+    y = bubbles_position_array[i][1]
+    If y < -30 Then
+      y = h + 30 + Math.GetRandomNumber(20)  ' "recreate bubble at starting point"      
+    EndIf
+      
+    bubbles_position_array[i][1] = y - bubble_init_speed  ' update bubble position
+    Shapes.Move(bubbles_array[i], bubbles_position_array[i][0], bubbles_position_array[i][1])  ' randomly place outside screen on the bottom right
+  EndFor    
+EndSub

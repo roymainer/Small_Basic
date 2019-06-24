@@ -1,0 +1,35 @@
+damage = 0.5
+health = 100
+max_health = 100
+
+w = GraphicsWindow.Width
+h = GraphicsWindow.height
+
+GraphicsWindow.BackgroundColor = "black"
+GraphicsWindow.BrushColor = "green"
+
+While health > 0
+  TakeDamage()
+  'TextWindow.WriteLine(Text.Append("Progress: ", progress))
+  DrawHealthBar()
+EndWhile  
+GraphicsWindow.FontSize = 38
+GraphicsWindow.BrushColor = "red"
+GraphicsWindow.DrawText(w/4, h/2, "Hack1ng C0mpl3t3!")
+
+Sub TakeDamage
+  health = health - damage
+  Delay()
+EndSub
+
+Sub Delay
+  i = 100000
+  While i > 0
+    i = i - 1
+  EndWhile
+EndSub
+
+Sub DrawHealthBar
+  width = w * health / max_health
+  GraphicsWindow.FillRectangle(0, 0, width, 20)
+EndSub

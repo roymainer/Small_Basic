@@ -1,0 +1,43 @@
+iteration = 0.5
+progress = 0
+complete = 100
+w = GraphicsWindow.Width
+h = GraphicsWindow.height
+
+GraphicsWindow.BackgroundColor = "black"
+GraphicsWindow.BrushColor = "green"
+
+While progress < complete
+  Hack()
+  'TextWindow.WriteLine(Text.Append("Progress: ", progress))
+  DrawProgressBox()
+  HackVisualize()
+EndWhile  
+GraphicsWindow.FontSize = 38
+GraphicsWindow.BrushColor = "red"
+GraphicsWindow.DrawText(w/4, h/2, "Hack1ng C0mpl3t3!")
+
+Sub Hack
+  progress = progress + iteration
+  Delay()
+EndSub
+
+Sub Delay
+  i = 100000
+  While i > 0
+    i = i - 1
+  EndWhile
+EndSub
+
+Sub DrawProgressBox
+  width = w * progress / complete
+  GraphicsWindow.FillRectangle(0, 0, width, 20)
+EndSub
+
+Sub HackVisualize
+  x = Math.GetRandomNumber(w)
+  y = Math.GetRandomNumber(h)
+  
+  GraphicsWindow.DrawText(x,y, Math.Remainder(x, 100))
+  GraphicsWindow.DrawText(y,x, Math.Remainder(y, 100))
+EndSub

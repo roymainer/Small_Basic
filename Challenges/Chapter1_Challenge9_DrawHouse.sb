@@ -1,0 +1,63 @@
+w = GraphicsWindow.Width
+h = GraphicsWindow.Height
+x = w/2
+y = h/2
+l = 100 ' large wall
+s = 20  'small wall
+r = 120 'roof
+
+Turtle.Speed = 5
+
+DrawLargeBox()
+
+'draw left window
+x = w/2 - 60
+y = y - 40
+TurtleMoveTo()
+DrawSmallBox()
+
+'draw right window
+x = w/2 - 10
+TurtleMoveTo()
+DrawSmallBox()
+
+'draw roof
+x = w/2 - l
+y = h/2 - 20*4
+TurtleMoveTo()
+DrawTriangle()
+
+Sub TurtleMoveTo
+  Turtle.PenUp()
+  Turtle.MoveTo(x,y)
+  Turtle.PenDown()
+EndSub
+
+Sub DrawLargeBox
+  size = l
+  DrawBox()
+EndSub
+
+Sub DrawSmallBox
+  size = s
+  DrawBox()
+EndSub
+
+Sub DrawBox
+  Turtle.Angle = 0
+  For i = 0 To 3
+    Turtle.Move(size)
+    Turtle.TurnLeft()
+  EndFor
+EndSub
+  
+  Sub DrawTriangle
+    Turtle.Speed = 5
+  angle = 90
+  For i = 0 To 2
+    Turtle.Angle = angle
+    Turtle.Move(r)
+    angle = angle - 360 / 3
+  EndFor
+EndSub
+

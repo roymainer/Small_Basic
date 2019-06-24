@@ -1,0 +1,122 @@
+GraphicsWindow.Show()
+
+'variables:
+gw = GraphicsWindow.Width
+gh = GraphicsWindow.Height
+delay = 5  ' the game delay between updates, the smaller, the faster the game is
+score = 0
+retries = 3
+equation = ""
+pencolor = "Blue"
+
+num1 = 0
+num2 = 0
+symbol = 0
+answer = 0
+equation = ""
+input = "" ' user input as string
+user_answer = 0 ' user input as int
+user_answer_ready = 0  ' user pressed enter flag
+
+GraphicsWindow.FontSize = 48
+
+GraphicsWindow.TextInput = OnTextInput 'Start a character text event
+
+'main loop
+RunLoop:
+
+  If equation = "" Then
+    GetEquation()
+    If equation = "" Then
+      ' if equation generation failed, retry
+      Goto RunLoop
+    EndIf
+  EndIF
+  
+  GraphicsWindow.DrawText(200,200, equation)  ' print equation
+  GraphicsWindow.DrawText(20, 20, Text.Append("Score: ", score))
+  GraphicsWindow.DrawText(20, 60, Text.Append("Retries: ", retries))
+  
+  If user_answer_ready = 1 Then
+    If user_answer = answer Then
+      ' if user answers correctly, increment score
+      score = score + 1
+    Else
+      ' if user makes a mistake, decrement number of retries
+      retries = retries - 1
+    EndIf
+    
+    ' reset game
+    
+    GraphicsWindow.Clear()  ' clear canvas
+    equation = ""  ' reset equation to generate a new one
+    user_answer_ready = 0  ' reset flag
+    user_answer = 0  ' reset users answer
+    answer = 0
+    input = ""
+    
+  EndIf
+  
+  
+  Program.Delay(delay)  ' create 5msec delay
+  
+  If retries > 1 Then 
+    Goto RunLoop
+  EndIf 
+  
+
+GraphicsWindow.ShowMessage(score, "Your Score:")  ' game over message
+
+
+Sub OntextInput
+  'Event subroutine called when a key is pressed when the GraphicsWindow is active
+  char = GraphicsWindow.LastText ' get the character entered
+  If (Text.GetCharacterCode(char) = 13) Then 
+    user_answer = input
+    user_answer_ready = 1
+  Else
+    ' delete previous input
+    GraphicsWindow.PenColor = "White"
+    GraphicsWindow.DrawText(200,300,input) 'If it is Enter (return), then we are done and output name
+    
+    ' update input
+    input = Text.Append(input, GraphicsWindow.LastText) ' Append key input to data being read
+  EndIf
+  
+  GraphicsWindow.PenColor = pencolor
+  GraphicsWindow.DrawText(200,300, input) 'If it is Enter (return), then we are done and output name
+EndSub   
+
+
+Sub GetEquation
+  ' Equation Generation subroutine
+  num1 = Math.GetRandomNumber(9)
+  num2 = Math.GetRandomNumber(9)
+  symbol = Math.GetRandomNumber(3)
+  equation = "= ?"
+  
+  equation = Text.Append(num2, equation)
+  
+  If symbol = 0 Then
+    equation = Text.Append(" + ", equation)
+    answer = num1 + num2
+  ElseIf symbol = 1 Then
+    equation = Text.Append(" - ", equation)
+    answer = num1 - num2
+  ElseIf symbol = 2 Then
+    equation = Text.Append(" * ", equation)
+    answer = num1 * num2
+  ElseIf symbol = 3 Then
+    equation = Text.Append(" / ", equation)
+    answer = num1 / num2
+  EndIf
+  
+  equation = Text.Append(num1, equation)
+  
+  If Math.Remainder(num1, num2) > 0 Then
+    equation = ""
+  EndIf
+  
+EndSub
+
+  

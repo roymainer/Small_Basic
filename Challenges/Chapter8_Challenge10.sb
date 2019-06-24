@@ -1,0 +1,4 @@
+For i = 0 To 3
+  Turtle.Move(100)
+  Turtle.TurnLeft()
+EndFor

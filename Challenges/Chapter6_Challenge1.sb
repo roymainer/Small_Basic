@@ -1,0 +1,16 @@
+'Challenge1
+
+num = TextWindow.Read()
+If num > 30 And num < 40 Then
+  TextWindow.WriteLine("Banana")
+  If num = 35 Then
+    TextWindow.WriteLine("Apple")
+  EndIf
+ElseIf num > 65 and num < 80 Then
+  If num < 70 Then
+    TextWindow.WriteLine("Grapes")
+  Else
+    TextWindow.WriteLine("Orange")
+  EndIf
+EndIf
+  

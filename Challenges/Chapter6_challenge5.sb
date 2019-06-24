@@ -1,0 +1,22 @@
+color  = TextWindow.Read()
+harm = TextWindow.Read()
+
+If harm = "no" Then 
+  If color = "white" Then
+    TextWindow.WriteLine("rabbit")
+  ElseIf color = "pink" then
+    TextWindow.WriteLine("pig")
+  
+  endif
+Else
+  If color = "green" Then
+    TextWindow.WriteLine("creeper")
+  ElseIf color = "black" then
+    TextWindow.WriteLine("spider")
+  EndIf
+EndIf
+01
+
+
+000002
+    
